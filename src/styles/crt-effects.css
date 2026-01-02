@@ -1,0 +1,246 @@
+/* PSYCHEDELIC FRACTAL MADNESS */
+
+/* Animated rainbow gradient background */
+@keyframes fractal-bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes hue-rotate-infinite {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    text-shadow:
+      0 0 5px var(--acid-pink),
+      0 0 10px var(--acid-cyan),
+      0 0 20px var(--acid-yellow),
+      0 0 40px var(--acid-green);
+  }
+  25% {
+    text-shadow:
+      0 0 5px var(--acid-cyan),
+      0 0 10px var(--acid-yellow),
+      0 0 20px var(--acid-green),
+      0 0 40px var(--acid-purple);
+  }
+  50% {
+    text-shadow:
+      0 0 5px var(--acid-yellow),
+      0 0 10px var(--acid-green),
+      0 0 20px var(--acid-purple),
+      0 0 40px var(--acid-pink);
+  }
+  75% {
+    text-shadow:
+      0 0 5px var(--acid-green),
+      0 0 10px var(--acid-purple),
+      0 0 20px var(--acid-pink),
+      0 0 40px var(--acid-cyan);
+  }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-1deg) scale(1); }
+  25% { transform: rotate(1deg) scale(1.01); }
+  50% { transform: rotate(-0.5deg) scale(0.99); }
+  75% { transform: rotate(0.5deg) scale(1.02); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(3px) translateY(-2px); }
+  50% { transform: translateX(-2px) translateY(3px); }
+  75% { transform: translateX(-3px) translateY(-1px); }
+}
+
+@keyframes kaleidoscope {
+  0% {
+    border-color: var(--acid-pink);
+    box-shadow:
+      0 0 10px var(--acid-pink),
+      inset 0 0 20px rgba(255, 0, 255, 0.3);
+  }
+  16% {
+    border-color: var(--acid-orange);
+    box-shadow:
+      0 0 10px var(--acid-orange),
+      inset 0 0 20px rgba(255, 102, 0, 0.3);
+  }
+  33% {
+    border-color: var(--acid-yellow);
+    box-shadow:
+      0 0 10px var(--acid-yellow),
+      inset 0 0 20px rgba(255, 255, 0, 0.3);
+  }
+  50% {
+    border-color: var(--acid-green);
+    box-shadow:
+      0 0 10px var(--acid-green),
+      inset 0 0 20px rgba(0, 255, 0, 0.3);
+  }
+  66% {
+    border-color: var(--acid-cyan);
+    box-shadow:
+      0 0 10px var(--acid-cyan),
+      inset 0 0 20px rgba(0, 255, 255, 0.3);
+  }
+  83% {
+    border-color: var(--acid-purple);
+    box-shadow:
+      0 0 10px var(--acid-purple),
+      inset 0 0 20px rgba(153, 0, 255, 0.3);
+  }
+  100% {
+    border-color: var(--acid-pink);
+    box-shadow:
+      0 0 10px var(--acid-pink),
+      inset 0 0 20px rgba(255, 0, 255, 0.3);
+  }
+}
+
+@keyframes fractal-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* The void - cosmic background */
+.crt-screen {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(ellipse at 60% 60%, rgba(0, 255, 0, 0.1) 0%, transparent 40%),
+    linear-gradient(135deg, var(--void-black) 0%, var(--void-purple) 50%, var(--void-blue) 100%);
+  background-size: 200% 200%;
+  animation: fractal-bg 15s ease infinite;
+  overflow: hidden;
+}
+
+/* Fractal overlay pattern */
+.crt-screen::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 0, 255, 0.03) 10deg,
+      transparent 20deg
+    ),
+    repeating-conic-gradient(
+      from 45deg at 30% 70%,
+      transparent 0deg,
+      rgba(0, 255, 255, 0.03) 15deg,
+      transparent 30deg
+    ),
+    repeating-conic-gradient(
+      from 90deg at 70% 30%,
+      transparent 0deg,
+      rgba(255, 255, 0, 0.03) 12deg,
+      transparent 24deg
+    );
+  animation: fractal-spin 120s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Scanlines but make them trippy */
+.crt-scanlines::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  animation: hue-rotate-infinite 30s linear infinite;
+}
+
+/* Rainbow text */
+.acid-text {
+  background: linear-gradient(
+    90deg,
+    var(--acid-pink),
+    var(--acid-orange),
+    var(--acid-yellow),
+    var(--acid-green),
+    var(--acid-cyan),
+    var(--acid-purple),
+    var(--acid-pink)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fractal-bg 3s linear infinite, wobble 4s ease-in-out infinite;
+}
+
+/* Pulsing glow text */
+.glow-text {
+  color: #fff;
+  animation: pulse-glow 2s ease-in-out infinite, drift 6s ease-in-out infinite;
+}
+
+/* Kaleidoscope border */
+.fractal-border {
+  border: 3px solid var(--acid-pink);
+  animation: kaleidoscope 4s linear infinite;
+  position: relative;
+}
+
+.fractal-border::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 1px solid;
+  border-image: linear-gradient(
+    45deg,
+    var(--acid-pink),
+    var(--acid-cyan),
+    var(--acid-yellow),
+    var(--acid-green)
+  ) 1;
+  animation: kaleidoscope 4s linear infinite reverse;
+  pointer-events: none;
+}
+
+/* Breathing element */
+.breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Chaotic hover state */
+.chaos-hover {
+  transition: all 0.3s ease;
+}
+
+.chaos-hover:hover {
+  transform: scale(1.1) rotate(2deg);
+  filter: hue-rotate(90deg) saturate(2);
+}

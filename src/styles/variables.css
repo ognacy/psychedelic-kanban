@@ -1,0 +1,32 @@
+:root {
+  /* Psychedelic color palette */
+  --acid-pink: #ff00ff;
+  --acid-cyan: #00ffff;
+  --acid-yellow: #ffff00;
+  --acid-green: #00ff00;
+  --acid-orange: #ff6600;
+  --acid-purple: #9900ff;
+  --acid-red: #ff0066;
+  --acid-blue: #0066ff;
+
+  /* Deep space background */
+  --void-black: #0a0008;
+  --void-purple: #1a0020;
+  --void-blue: #000820;
+
+  /* Typography */
+  --font-terminal: 'VT323', monospace;
+  --font-size-base: 20px;
+  --font-size-lg: 28px;
+  --font-size-xl: 42px;
+  --font-size-sm: 16px;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  --border-width: 2px;
+}

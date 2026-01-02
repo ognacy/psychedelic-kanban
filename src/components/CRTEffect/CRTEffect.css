@@ -1,0 +1,36 @@
+.crt-content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: var(--spacing-lg);
+}
+
+/* Floating orbs background decoration */
+.crt-content::before,
+.crt-content::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.crt-content::before {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--acid-pink) 0%, transparent 70%);
+  top: 10%;
+  left: -10%;
+  animation: drift 20s ease-in-out infinite;
+}
+
+.crt-content::after {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--acid-cyan) 0%, transparent 70%);
+  bottom: 10%;
+  right: -5%;
+  animation: drift 15s ease-in-out infinite reverse;
+}

@@ -1,0 +1,151 @@
+@keyframes input-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 10px var(--acid-pink),
+      inset 0 0 10px rgba(255, 0, 255, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 20px var(--acid-cyan),
+      0 0 40px var(--acid-pink),
+      inset 0 0 15px rgba(0, 255, 255, 0.1);
+  }
+}
+
+@keyframes cursor-rainbow {
+  0% { background: var(--acid-pink); box-shadow: 0 0 10px var(--acid-pink); }
+  16% { background: var(--acid-orange); box-shadow: 0 0 10px var(--acid-orange); }
+  33% { background: var(--acid-yellow); box-shadow: 0 0 10px var(--acid-yellow); }
+  50% { background: var(--acid-green); box-shadow: 0 0 10px var(--acid-green); }
+  66% { background: var(--acid-cyan); box-shadow: 0 0 10px var(--acid-cyan); }
+  83% { background: var(--acid-purple); box-shadow: 0 0 10px var(--acid-purple); }
+  100% { background: var(--acid-pink); box-shadow: 0 0 10px var(--acid-pink); }
+}
+
+@keyframes button-madness {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: perspective(500px) rotateY(0deg);
+  }
+  25% {
+    transform: perspective(500px) rotateY(5deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: perspective(500px) rotateY(0deg);
+  }
+  75% {
+    transform: perspective(500px) rotateY(-5deg);
+  }
+}
+
+.task-form {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  z-index: 10;
+}
+
+.task-form__input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: rgba(10, 0, 20, 0.8);
+  border: 3px solid;
+  border-image: linear-gradient(
+    90deg,
+    var(--acid-pink),
+    var(--acid-cyan),
+    var(--acid-yellow),
+    var(--acid-green),
+    var(--acid-pink)
+  ) 1;
+  animation: input-pulse 3s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+}
+
+.task-form__input-wrapper:focus-within {
+  animation: input-pulse 1s ease-in-out infinite;
+  border-image: linear-gradient(
+    90deg,
+    var(--acid-yellow),
+    var(--acid-pink),
+    var(--acid-cyan),
+    var(--acid-purple),
+    var(--acid-yellow)
+  ) 1;
+}
+
+.task-form__prompt {
+  margin-right: var(--spacing-sm);
+  font-size: var(--font-size-lg);
+  animation: rainbow-shift 2s linear infinite;
+}
+
+.task-form__input {
+  flex: 1;
+  background: transparent;
+  color: #fff;
+  font-size: var(--font-size-lg);
+  text-shadow: 0 0 5px var(--acid-cyan);
+}
+
+.task-form__input::placeholder {
+  color: var(--acid-purple);
+  opacity: 0.5;
+}
+
+.task-form__cursor {
+  width: 12px;
+  height: 1.4em;
+  margin-left: 4px;
+  animation:
+    cursor-rainbow 3s linear infinite,
+    blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.task-form__button {
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: linear-gradient(
+    135deg,
+    var(--acid-pink),
+    var(--acid-purple),
+    var(--acid-cyan),
+    var(--acid-green),
+    var(--acid-yellow),
+    var(--acid-pink)
+  );
+  background-size: 300% 300%;
+  border: none;
+  color: #fff;
+  font-size: var(--font-size-lg);
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 20px var(--acid-cyan);
+  animation: button-madness 4s ease-in-out infinite;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.task-form__button:hover {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow:
+    0 0 20px var(--acid-pink),
+    0 0 40px var(--acid-cyan),
+    0 0 60px var(--acid-yellow),
+    0 0 80px var(--acid-green);
+  animation: button-madness 1s ease-in-out infinite;
+}
+
+.task-form__button:active {
+  transform: scale(0.95);
+}

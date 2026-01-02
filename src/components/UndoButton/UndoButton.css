@@ -1,0 +1,81 @@
+@keyframes undo-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 10px var(--acid-purple),
+      0 0 20px var(--acid-pink);
+  }
+  50% {
+    box-shadow:
+      0 0 20px var(--acid-pink),
+      0 0 40px var(--acid-purple),
+      0 0 60px var(--acid-cyan);
+  }
+}
+
+@keyframes icon-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+.undo-button {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(153, 0, 255, 0.8),
+    rgba(255, 0, 255, 0.8),
+    rgba(0, 255, 255, 0.8)
+  );
+  background-size: 200% 200%;
+  border: 2px solid var(--acid-purple);
+  color: #fff;
+  font-size: var(--font-size-base);
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  z-index: 100;
+  animation: undo-pulse 2s ease-in-out infinite, fractal-bg 4s ease infinite;
+  transition: all 0.3s ease;
+}
+
+.undo-button:hover:not(:disabled) {
+  transform: scale(1.1) rotate(-5deg);
+  border-color: var(--acid-cyan);
+}
+
+.undo-button:hover:not(:disabled) .undo-button__icon {
+  animation: icon-spin 0.5s ease-out;
+}
+
+.undo-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.undo-button--disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  animation: none;
+  background: rgba(50, 50, 50, 0.8);
+  border-color: #444;
+}
+
+.undo-button__icon {
+  font-size: var(--font-size-lg);
+  display: inline-block;
+}
+
+.undo-button__text {
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px var(--acid-cyan);
+}
+
+.undo-button__count {
+  color: var(--acid-yellow);
+  text-shadow: 0 0 10px var(--acid-yellow);
+}

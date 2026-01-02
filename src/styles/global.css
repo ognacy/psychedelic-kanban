@@ -1,0 +1,76 @@
+@import './variables.css';
+@import './crt-effects.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-base);
+}
+
+body {
+  font-family: var(--font-terminal);
+  background: var(--void-black);
+  color: #fff;
+  line-height: 1.4;
+  overflow-x: hidden;
+}
+
+/* Reset button styles */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: inherit;
+}
+
+/* Reset input styles */
+input {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent;
+  border: none;
+  color: inherit;
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Psychedelic scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(
+    180deg,
+    var(--acid-purple),
+    var(--acid-pink),
+    var(--acid-cyan)
+  );
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--acid-yellow),
+    var(--acid-green),
+    var(--acid-cyan)
+  );
+  border-radius: 0;
+  animation: hue-rotate-infinite 5s linear infinite;
+}
+
+/* Trippy selection */
+::selection {
+  background: var(--acid-pink);
+  color: var(--acid-cyan);
+  text-shadow: 2px 2px var(--acid-yellow);
+}
