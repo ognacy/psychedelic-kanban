@@ -1,17 +1,49 @@
-/* PSYCHEDELIC FRACTAL MADNESS */
+/**
+ * Psychedelic Visual Effects
+ *
+ * This file contains all the CSS animations and effects that create
+ * the trippy, LSD-inspired aesthetic of the application.
+ *
+ * Design Philosophy:
+ * - All animations use CSS (not JavaScript) for GPU acceleration
+ * - Effects are layered using pseudo-elements and z-index
+ * - Colors are defined as CSS variables for consistency
+ * - Animation durations are varied to create organic, non-repetitive feel
+ * - Pointer-events: none on overlays ensures interactivity passes through
+ */
 
-/* Animated rainbow gradient background */
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   Each animation is designed to loop seamlessly and can be combined
+   with others for complex visual effects.
+   ========================================================================== */
+
+/**
+ * Animated gradient position shift.
+ * Used on backgrounds with background-size: 200% to create flowing effect.
+ * 15s duration is slow enough to be subtle but noticeable.
+ */
 @keyframes fractal-bg {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+/**
+ * Continuous hue rotation.
+ * Applied to elements to cycle through the entire color spectrum.
+ * 30s duration prevents motion sickness while maintaining psychedelic feel.
+ */
 @keyframes hue-rotate-infinite {
   0% { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(360deg); }
 }
 
+/**
+ * Rainbow glow cycle for text.
+ * Cycles through 4 color combinations using layered text-shadows.
+ * Multiple shadow layers create the characteristic "glow" effect.
+ */
 @keyframes pulse-glow {
   0%, 100% {
     text-shadow:
@@ -43,6 +75,11 @@
   }
 }
 
+/**
+ * Subtle rotation and scale wobble.
+ * Creates organic, "breathing" movement.
+ * Small values (1-2 degrees, 1-2% scale) keep it subtle.
+ */
 @keyframes wobble {
   0%, 100% { transform: rotate(-1deg) scale(1); }
   25% { transform: rotate(1deg) scale(1.01); }
@@ -50,11 +87,20 @@
   75% { transform: rotate(0.5deg) scale(1.02); }
 }
 
+/**
+ * Pulsing scale animation with opacity.
+ * Simulates organic "breathing" movement.
+ */
 @keyframes breathe {
   0%, 100% { transform: scale(1); opacity: 0.8; }
   50% { transform: scale(1.05); opacity: 1; }
 }
 
+/**
+ * Random-looking position drift.
+ * Uses asymmetric keyframe values to avoid obvious loops.
+ * Applied to floating elements for dreamlike movement.
+ */
 @keyframes drift {
   0%, 100% { transform: translateX(0) translateY(0); }
   25% { transform: translateX(3px) translateY(-2px); }
@@ -62,6 +108,12 @@
   75% { transform: translateX(-3px) translateY(-1px); }
 }
 
+/**
+ * Rainbow border color cycle.
+ * Each keyframe at ~16% intervals (100/6 colors).
+ * Includes matching box-shadow for glow effect.
+ * Inset shadow creates inner glow.
+ */
 @keyframes kaleidoscope {
   0% {
     border-color: var(--acid-pink);
@@ -107,27 +159,55 @@
   }
 }
 
+/**
+ * Slow continuous rotation.
+ * 120s duration = 2 minutes per rotation.
+ * Used for fractal overlay pattern.
+ */
 @keyframes fractal-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* The void - cosmic background */
+/* ==========================================================================
+   SCREEN CONTAINER
+   The main wrapper that creates the cosmic background effect.
+   ========================================================================== */
+
+/**
+ * Base container with layered gradient background.
+ *
+ * Design Technique: Multiple radial-gradients stacked to create
+ * nebula-like color pools. The linear-gradient provides base darkness.
+ * background-size: 200% enables the position animation.
+ */
 .crt-screen {
   position: relative;
   min-height: 100vh;
   background:
+    /* Pink nebula - bottom left */
     radial-gradient(ellipse at 20% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+    /* Cyan nebula - top right */
     radial-gradient(ellipse at 80% 20%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+    /* Yellow accent - center left */
     radial-gradient(ellipse at 40% 40%, rgba(255, 255, 0, 0.1) 0%, transparent 40%),
+    /* Green accent - center right */
     radial-gradient(ellipse at 60% 60%, rgba(0, 255, 0, 0.1) 0%, transparent 40%),
+    /* Base gradient - dark void */
     linear-gradient(135deg, var(--void-black) 0%, var(--void-purple) 50%, var(--void-blue) 100%);
   background-size: 200% 200%;
   animation: fractal-bg 15s ease infinite;
   overflow: hidden;
 }
 
-/* Fractal overlay pattern */
+/**
+ * Fractal overlay using conic gradients.
+ *
+ * Design Technique: Three overlapping conic gradients with different
+ * starting angles and center points create complex interference patterns.
+ * The element is 200% size and offset -50% to enable rotation from center.
+ * Very low opacity (0.03) keeps it subtle.
+ */
 .crt-screen::before {
   content: '';
   position: fixed;
@@ -155,11 +235,18 @@
       transparent 24deg
     );
   animation: fractal-spin 120s linear infinite;
-  pointer-events: none;
+  pointer-events: none; /* Allow clicks through */
   z-index: 1;
 }
 
-/* Scanlines but make them trippy */
+/**
+ * Scanline overlay effect.
+ *
+ * Design Technique: Repeating linear gradient creates horizontal lines.
+ * 2px transparent + 2px dark = 4px repeat.
+ * High z-index ensures it appears above content.
+ * Hue rotation adds color shifting to the scanlines.
+ */
 .crt-scanlines::after {
   content: '';
   position: fixed;
@@ -179,7 +266,16 @@
   animation: hue-rotate-infinite 30s linear infinite;
 }
 
-/* Rainbow text */
+/* ==========================================================================
+   UTILITY CLASSES
+   Reusable effect classes that can be applied to any element.
+   ========================================================================== */
+
+/**
+ * Rainbow gradient text.
+ * Uses background-clip: text technique for gradient fill.
+ * Combined wobble animation adds organic movement.
+ */
 .acid-text {
   background: linear-gradient(
     90deg,
@@ -198,19 +294,29 @@
   animation: fractal-bg 3s linear infinite, wobble 4s ease-in-out infinite;
 }
 
-/* Pulsing glow text */
+/**
+ * Pulsing glow effect for text.
+ * Combines color-shifting glow with subtle position drift.
+ */
 .glow-text {
   color: #fff;
   animation: pulse-glow 2s ease-in-out infinite, drift 6s ease-in-out infinite;
 }
 
-/* Kaleidoscope border */
+/**
+ * Animated border with rainbow color cycling.
+ * Includes outer glow via box-shadow.
+ */
 .fractal-border {
   border: 3px solid var(--acid-pink);
   animation: kaleidoscope 4s linear infinite;
   position: relative;
 }
 
+/**
+ * Double border effect using pseudo-element.
+ * Reverse animation creates interference pattern with parent.
+ */
 .fractal-border::before {
   content: '';
   position: absolute;
@@ -230,12 +336,17 @@
   pointer-events: none;
 }
 
-/* Breathing element */
+/**
+ * Simple breathing/pulsing animation.
+ */
 .breathe {
   animation: breathe 3s ease-in-out infinite;
 }
 
-/* Chaotic hover state */
+/**
+ * Hover effect with scale, rotation, and color shift.
+ * Transition on base state, transform on hover.
+ */
 .chaos-hover {
   transition: all 0.3s ease;
 }

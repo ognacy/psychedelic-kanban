@@ -1,12 +1,36 @@
+/**
+ * Weather Component
+ *
+ * Displays current weather conditions based on user's geolocation.
+ *
+ * Design Choices:
+ * - Open-Meteo API: Free, no API key required, generous rate limits
+ * - Browser Geolocation API: Native, no external dependencies
+ * - Graceful degradation: Shows helpful error messages instead of crashing
+ * - Weather codes mapped to readable strings for better UX
+ */
+
 import { useState, useEffect } from 'react';
 import './Weather.css';
 
+/**
+ * Weather data structure from Open-Meteo API (simplified).
+ */
 interface WeatherData {
   temperature: number;
   weatherCode: number;
   windSpeed: number;
 }
 
+/**
+ * WMO Weather Codes mapped to human-readable descriptions.
+ *
+ * Design Choice: Using a static lookup table instead of API-provided
+ * descriptions for consistent styling and offline capability.
+ * Only common codes are included; rare codes fall back to "UNKNOWN".
+ *
+ * @see https://open-meteo.com/en/docs#weathervariables
+ */
 const WEATHER_CODES: Record<number, string> = {
   0: 'CLEAR',
   1: 'MAINLY CLEAR',
@@ -40,6 +64,12 @@ export function Weather() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    /**
+     * Fetch weather data from Open-Meteo API.
+     *
+     * Design Choice: Using the "current" endpoint for real-time data
+     * instead of forecast. Parameters request only the fields we display.
+     */
     const fetchWeather = async (lat: number, lon: number) => {
       try {
         const response = await fetch(
@@ -59,12 +89,21 @@ export function Weather() {
       }
     };
 
+    /**
+     * Request user's location via Geolocation API.
+     *
+     * Design Choices:
+     * - Check for API support first (older browsers may not have it)
+     * - Handle permission denial gracefully with user-friendly message
+     * - Single location request (not watching for updates) to save battery
+     */
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           fetchWeather(position.coords.latitude, position.coords.longitude);
         },
         () => {
+          // User denied permission or location unavailable
           setError('LOCATION ACCESS DENIED');
           setLoading(false);
         }
@@ -73,12 +112,16 @@ export function Weather() {
       setError('GEOLOCATION NOT SUPPORTED');
       setLoading(false);
     }
-  }, []);
+  }, []); // Empty deps = run once on mount
 
+  /**
+   * Convert WMO weather code to display string.
+   */
   const getWeatherDescription = (code: number): string => {
     return WEATHER_CODES[code] || 'UNKNOWN';
   };
 
+  // Loading state
   if (loading) {
     return (
       <div className="weather crt-text-dim">
@@ -87,6 +130,7 @@ export function Weather() {
     );
   }
 
+  // Error state - show message but don't break the app
   if (error) {
     return (
       <div className="weather crt-text-dim">
@@ -95,8 +139,10 @@ export function Weather() {
     );
   }
 
+  // No data (shouldn't happen, but handle gracefully)
   if (!weather) return null;
 
+  // Success state - display weather info
   return (
     <div className="weather crt-text-dim">
       <span className="weather__temp">{weather.temperature}°C</span>
